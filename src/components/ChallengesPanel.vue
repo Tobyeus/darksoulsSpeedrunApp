@@ -88,6 +88,10 @@ const categories = ref([
     icon: '',
     challenges: [
       { id: 'j1', name: 'This game sucks', description: 'Play without leveling ADP', points: 200, difficulty: 'hard', completed: savedCompleted.includes('j1'), locked: false},
+      { id: 'j2', name: 'Weapon Master', description: 'Defeat a boss while dual stancing a weapon', points: 50, difficulty: 'easy', completed: savedCompleted.includes('j2'), locked: false},
+      { id: 'j3', name: 'Jump Master', description: 'Jump down the well without the Catring', points: 200, difficulty: 'hard', completed: savedCompleted.includes('j3'), locked: false},
+      { id: 'j4', name: 'Go through the Darkness', description: 'Pull Lever in No-mans Wharf without lighting a torch', points: 50, difficulty: 'easy', completed: savedCompleted.includes('j4'), locked: false},
+      { id: 'j5', name: 'This game sucks dick so hard', description: 'Dont use the ring of binding at all', points: 300, difficulty: 'hard', completed: savedCompleted.includes('j5'), locked: false},
     ]
   }
 ])
