@@ -36,7 +36,6 @@
         <div class="stat-val">{{ Math.round((defeatedCount / bosses.length) * 100) }}%</div>
         <div class="stat-label">Fortschritt</div>
       </div>
-      <button class="btn btn-ghost reset-btn" @click="resetBosses">Reset Bosse</button>
     </div>
   </div>
 </template>
@@ -89,11 +88,6 @@ function toggleBoss(boss) {
   emit('score-change', bossScore.value)
 }
 
-function resetBosses() {
-  bosses.value.forEach(b => (b.defeated = false))
-  localStorage.removeItem('ds2_bosses_defeated')
-  emit('score-change', 0)
-}
 </script>
 
 <style scoped>

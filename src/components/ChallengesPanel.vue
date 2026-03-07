@@ -48,7 +48,6 @@
         <div class="stat-val">{{ maxPossible }}</div>
         <div class="stat-label">Max. möglich</div>
       </div>
-      <button class="btn btn-ghost reset-btn" @click="resetChallenges">Reset</button>
     </div>
   </div>
 </template>
@@ -63,44 +62,34 @@ const savedCompleted = JSON.parse(localStorage.getItem('ds2_challenges_completed
 
 const categories = ref([
   {
-    name: 'Kampfmeister',
-    icon: '⚔️',
+    name: 'Tobyeus',
+    icon: '',
     challenges: [
-      { id: 'c1', name: 'Unberührt',       description: 'Besiege einen Boss ohne einen Treffer zu kassieren', points: 300, difficulty: 'hard',   completed: savedCompleted.includes('c1'), locked: false },
-      { id: 'c2', name: 'Nackter Stahl',   description: 'Besiege The Pursuer ohne Rüstung zu tragen',        points: 250, difficulty: 'hard',   completed: savedCompleted.includes('c2'), locked: false },
-      { id: 'c3', name: 'Trank-Abstinenz', description: 'Besiege einen Boss ohne Estus Flask zu benutzen',   points: 200, difficulty: 'medium', completed: savedCompleted.includes('c3'), locked: false },
-      { id: 'c4', name: 'Blitzsieger',     description: 'Besiege einen Boss in unter 60 Sekunden',           points: 150, difficulty: 'medium', completed: savedCompleted.includes('c4'), locked: false },
-    ],
+      { id: 't1', name: 'Do you have any Idea how fast I am?',     description: 'Besiege einen Boss in unter 60 Sekunden', points: 100, difficulty: 'medium', completed: savedCompleted.includes('t1'), locked: false },
+      { id: 't2', name: 'Deathless',     description: 'Stirb nicht ein einziges Mal in einer Stunde', points: 350, difficulty: 'hard',   completed: savedCompleted.includes('t2'), locked: false },
+      { id: 't3', name: 'Doublehit',    description: 'Besiege 2 Bosse innerhalb von 15 Minuten',      points: 250, difficulty: 'hard',   completed: savedCompleted.includes('t3'), locked: false },
+      { id: 't4', name: 'Smort', description: 'Level INT to 50', points: 100, difficulty: 'medium', completed: savedCompleted.includes('t4'), locked: false},
+      { id: 't5', name: 'Blight Town 2.0', description: 'Kill the Rotten as your first boss', points: 300 , difficulty: 'hard', completed: savedCompleted.includes(''), locked: false},
+    ]
   },
   {
-    name: 'Erkunder',
-    icon: '🗺️',
+    name: 'Max',
+    icon: '',
     challenges: [
-      { id: 'e1', name: 'Schatzjäger',    description: 'Öffne 10 Truhen in einer einzigen Zone',                    points: 100, difficulty: 'easy',   completed: savedCompleted.includes('e1'), locked: false },
-      { id: 'e2', name: 'Geheimsucher',   description: 'Finde 3 versteckte Wanddurchgänge',                         points: 150, difficulty: 'medium', completed: savedCompleted.includes('e2'), locked: false },
-      { id: 'e3', name: 'Bonfire-Hopper', description: 'Zünde 10 Lagerfeuer in unter 30 Minuten an',                points: 200, difficulty: 'medium', completed: savedCompleted.includes('e3'), locked: false },
-      { id: 'e4', name: 'Kurierläufer',   description: 'Erreiche Majula in unter 5 Minuten nach Spielstart',        points: 100, difficulty: 'easy',   completed: savedCompleted.includes('e4'), locked: false },
-    ],
+      { id: 'm1', name: 'Pursuer Easy Mode', description: 'Damage the pursuer with a balista', points: 50, difficulty: 'medium', completed: savedCompleted.includes('m1'), locked: false},
+      { id: 'm2', name: 'Bueno Ballista', description: 'Kill the Pursuer only with Balista', points: 100, difficulty: 'hard', completed: savedCompleted.includes('m2'), locked: false},
+      { id: 'm3', name: 'Among Souls', description: 'Kill an Imposter', points: 50, difficulty: 'medium', completed: savedCompleted.includes('m3'), locked: false},
+      { id: 'm4', name: 'Call an Ambulance, but not for me', description: 'Kill an invader', points: 50, difficulty: 'easy', completed: savedCompleted.includes('m4'), locked: false},
+      { id: 'm5', name: 'Hex Hex', description: 'Kill a boss with only hexes', points: 200, difficulty: 'medium', completed: savedCompleted.includes(''), locked: false},
+    ]
   },
   {
-    name: 'Seelen-Magnat',
-    icon: '💀',
+    name: 'Julia',
+    icon: '',
     challenges: [
-      { id: 's1', name: 'Seelen-Millionär', description: 'Sammle 100.000 Seelen ohne auszugeben',        points: 200, difficulty: 'medium', completed: savedCompleted.includes('s1'), locked: false },
-      { id: 's2', name: 'Kein Verlust',     description: 'Stirb nicht ein einziges Mal in einer Stunde', points: 350, difficulty: 'hard',   completed: savedCompleted.includes('s2'), locked: false },
-      { id: 's3', name: 'Seelenfresser',    description: 'Töte 50 Gegner ohne zu sterben',               points: 150, difficulty: 'easy',   completed: savedCompleted.includes('s3'), locked: false },
-    ],
-  },
-  {
-    name: 'Speedster',
-    icon: '⚡',
-    challenges: [
-      { id: 'sp1', name: 'Doppelschlag',    description: 'Besiege 2 Bosse innerhalb von 15 Minuten',      points: 250, difficulty: 'hard',   completed: savedCompleted.includes('sp1'), locked: false },
-      { id: 'sp2', name: 'No-Buy-Run',      description: 'Kaufe nichts beim Händler in der ersten Stunde', points: 100, difficulty: 'easy',   completed: savedCompleted.includes('sp2'), locked: false },
-      { id: 'sp3', name: 'Dreierlei',       description: 'Besiege 3 Bosse in unter 45 Minuten',           points: 300, difficulty: 'hard',   completed: savedCompleted.includes('sp3'), locked: false },
-      { id: 'sp4', name: 'Stufen-Sprinter', description: 'Erreiche Stufe 20 in unter 30 Minuten',         points: 150, difficulty: 'medium', completed: savedCompleted.includes('sp4'), locked: false },
-    ],
-  },
+      { id: 'j1', name: 'This game sucks', description: 'Play without leveling ADP', points: 200, difficulty: 'hard', completed: savedCompleted.includes('j1'), locked: false},
+    ]
+  }
 ])
 
 watch(categories, (val) => {
@@ -113,14 +102,6 @@ function toggleChallenge(challenge) {
   challenge.completed = !challenge.completed
   if (challenge.completed) showToast(`Challenge abgeschlossen! +${challenge.points} Pts`)
   emit('score-change', challengeScore.value)
-}
-
-function resetChallenges() {
-  categories.value.forEach(cat =>
-    cat.challenges.forEach(c => (c.completed = false))
-  )
-  localStorage.removeItem('ds2_challenges_completed')
-  emit('score-change', 0)
 }
 
 const allChallenges = computed(() => categories.value.flatMap(c => c.challenges))

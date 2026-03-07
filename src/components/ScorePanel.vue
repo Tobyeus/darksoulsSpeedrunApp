@@ -15,6 +15,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import App from '../App.vue'
 
 const props = defineProps({
   bossScore: {
@@ -37,6 +38,7 @@ watch(totalScore, (newVal, oldVal) => {
     setTimeout(() => (scoreBump.value = false), 300)
   }
 })
+
 </script>
 
 <style scoped>
