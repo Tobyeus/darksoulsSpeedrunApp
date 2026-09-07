@@ -42,42 +42,30 @@
 </template>
 
 <script setup>
-import { ref, computed, inject, watch } from 'vue'
+import { ref, computed, inject, watch, onMounted } from 'vue'
+import { currentGame } from '../store/game'
+import { BOSSES } from '../data/bosses'
 
 const emit = defineEmits(['score-change'])
 const showToast = inject('showToast')
 
-const BOSS_LIST = [
-  { id: 1,  name: 'The Last Giant',            points: 100 },
-  { id: 2,  name: 'The Pursuer',               points: 150 },
-  { id: 3,  name: 'Dragonrider',               points: 150 },
-  { id: 4,  name: 'Old Dragonslayer',          points: 150 },
-  { id: 5,  name: 'Flexile Sentry',            points: 150 },
-  { id: 6,  name: 'Ruin Sentinels',            points: 200 },
-  { id: 7,  name: 'Lost Sinner',               points: 300 },
-  { id: 8,  name: 'Belfry Gargoyles',          points: 200 },
-  { id: 9,  name: 'Skeleton Lords',            points: 200 },
-  { id: 10, name: 'Covetous Demon',            points: 150 },
-  { id: 11, name: 'Mytha, the Baneful Queen',  points: 200 },
-  { id: 12, name: 'Smelter Demon',             points: 250 },
-  { id: 13, name: 'Old Iron King',             points: 300 },
-  { id: 14, name: 'Scorpioness Najka',         points: 200 },
-  { id: 15, name: 'Congregation',              points: 150 },
-  { id: 16, name: "Duke's Dear Freja",         points: 250 },
-  { id: 17, name: 'The Rotten',                points: 300 },
-  { id: 18, name: 'Guardian Dragon',           points: 200 },
-  { id: 19, name: 'Ancient Dragon',            points: 500 },
-  { id: 20, name: 'Giant Lord',                points: 400 },
-  { id: 21, name: 'Throne Watcher & Defender', points: 350 },
-  { id: 22, name: 'Nashandra',                 points: 500 },
-]
+function loadBosses(game) {
+  const savedDefeated = JSON.parse(localStorage.getItem(`${game}_bosses_defeated`) || '[]')
+  return BOSSES[game].map(b => ({ ...b, defeated: savedDefeated.includes(b.id) }))
+}
 
-const savedDefeated = JSON.parse(localStorage.getItem('ds2_bosses_defeated') || '[]')
-const bosses = ref(BOSS_LIST.map(b => ({ ...b, defeated: savedDefeated.includes(b.id) })))
+const bosses = ref(loadBosses(currentGame.value))
+
+// Beim Wechsel des Spiels (Burger-Menü) die passende Bossliste inkl.
+// gespeichertem Fortschritt neu laden und die Punktzahl an ScorePanel melden.
+watch(currentGame, (game) => {
+  bosses.value = loadBosses(game)
+  emit('score-change', bossScore.value)
+})
 
 watch(bosses, (val) => {
   const defeatedIds = val.filter(b => b.defeated).map(b => b.id)
-  localStorage.setItem('ds2_bosses_defeated', JSON.stringify(defeatedIds))
+  localStorage.setItem(`${currentGame.value}_bosses_defeated`, JSON.stringify(defeatedIds))
 }, { deep: true })
 
 const defeatedCount = computed(() => bosses.value.filter(b => b.defeated).length)
@@ -91,9 +79,13 @@ function toggleBoss(boss) {
 
 function resetBosses() {
   bosses.value.forEach(b => (b.defeated = false))
-  localStorage.removeItem('ds2_bosses_defeated')
+  localStorage.removeItem(`${currentGame.value}_bosses_defeated`)
   emit('score-change', 0)
 }
+
+// Damit die Punktzahl direkt beim Laden korrekt im ScorePanel steht
+// (vorher erst nach dem ersten Klick).
+onMounted(() => emit('score-change', bossScore.value))
 </script>
 
 <style scoped>

@@ -1,9 +1,11 @@
 <template>
   <div id="app-wrapper">
+    <GameMenu />
+
     <header>
-      <div class="header-ornament">⸻ Bearer of the Curse ⸻</div>
-      <h1>Dark Souls II</h1>
-      <div class="subtitle">Speedrun Tracker</div>
+      <div class="header-ornament">{{ currentMeta.ornament }}</div>
+      <h1>{{ currentMeta.title }}</h1>
+      <div class="subtitle">{{ currentMeta.subtitle }}</div>
       <div class="divider">
         <div class="divider-line"></div>
         <div class="divider-icon">⚔</div>
@@ -24,16 +26,28 @@
 </template>
 
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, watch, onMounted } from 'vue'
 import TimerPanel from './components/TimerPanel.vue'
 import ScorePanel from './components/ScorePanel.vue'
 import BossPanel from './components/BossPanel.vue'
 import ChallengesPanel from './components/ChallengesPanel.vue'
 import ToastContainer from './components/ToastContainer.vue'
+import GameMenu from './components/GameMenu.vue'
+import { currentGame, currentMeta } from './store/game'
 
 const bossScore = ref(0)
 const challengeScore = ref(0)
 const toasts = ref([])
+
+// Theme-Klasse (theme-ds2 / theme-ds3) auf <body>, damit die CSS-Variablen
+// aus global.css das komplette Farbschema umschalten - auch außerhalb von
+// #app-wrapper (z. B. der Seitenhintergrund).
+function applyTheme() {
+  document.body.classList.remove('theme-ds1', 'theme-ds2', 'theme-ds3')
+  document.body.classList.add(currentMeta.value.theme)
+}
+onMounted(applyTheme)
+watch(currentGame, applyTheme)
 
 function showToast(msg) {
   const id = Date.now()

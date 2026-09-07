@@ -17,6 +17,48 @@
   --glow: rgba(192, 57, 43, 0.4);
 }
 
+/* Dark Souls - warmes Bronze/Gold, wie sinkendes Sonnenlicht über Anor Londo */
+.theme-ds1 {
+  --ember: #8b5a2b;
+  --ember-bright: #d4922f;
+  --gold: #e8c468;
+  --gold-dim: #8c6d2e;
+  --bone: #e0d3b8;
+  --ash: #9c8a6f;
+  --dark: #0a0806;
+  --panel: #14100a;
+  --panel-border: #2e2417;
+  --glow: rgba(212, 146, 47, 0.4);
+}
+
+/* Dark Souls II - warm ember/red, wie bisher */
+.theme-ds2 {
+  --ember: #c0392b;
+  --ember-bright: #e74c3c;
+  --gold: #c9a84c;
+  --gold-dim: #7a5e2a;
+  --bone: #d4c5a0;
+  --ash: #8a7f6f;
+  --dark: #0d0b09;
+  --panel: #141210;
+  --panel-border: #2e2820;
+  --glow: rgba(192, 57, 43, 0.4);
+}
+
+/* Dark Souls III - kühleres, aschfahles Blau-Grau ("verlöschende Flamme") */
+.theme-ds3 {
+  --ember: #3d5a80;
+  --ember-bright: #6a93bf;
+  --gold: #b7b49a;
+  --gold-dim: #5a5947;
+  --bone: #c9ced6;
+  --ash: #6d7480;
+  --dark: #08090c;
+  --panel: #101318;
+  --panel-border: #232a33;
+  --glow: rgba(106, 147, 191, 0.4);
+}
+
 body {
   background: var(--dark);
   color: var(--bone);

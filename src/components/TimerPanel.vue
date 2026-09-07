@@ -22,12 +22,27 @@
 
 <script setup>
 import { ref, computed, watch, onUnmounted } from 'vue'
+import { currentGame } from '../store/game'
 
-const elapsed = ref(parseInt(localStorage.getItem('ds2_timer_elapsed') || '0'))
+function loadElapsed(game) {
+  return parseInt(localStorage.getItem(`${game}_timer_elapsed`) || '0')
+}
+
+const elapsed = ref(loadElapsed(currentGame.value))
 const isRunning = ref(false)
 let interval = null
 
-watch(elapsed, (val) => localStorage.setItem('ds2_timer_elapsed', val))
+watch(elapsed, (val) => localStorage.setItem(`${currentGame.value}_timer_elapsed`, val))
+
+// Beim Spielwechsel läuft nur ein Timer gleichzeitig: laufender Timer wird
+// pausiert, die Zeit des neu gewählten Spiels wird geladen.
+watch(currentGame, (game) => {
+  if (isRunning.value) {
+    clearInterval(interval)
+    isRunning.value = false
+  }
+  elapsed.value = loadElapsed(game)
+})
 
 const formattedTime = computed(() => {
   const ms = elapsed.value
@@ -54,7 +69,7 @@ function resetTimer() {
   clearInterval(interval)
   isRunning.value = false
   elapsed.value = 0
-  localStorage.removeItem('ds2_timer_elapsed')
+  localStorage.removeItem(`${currentGame.value}_timer_elapsed`)
 }
 
 onUnmounted(() => clearInterval(interval))

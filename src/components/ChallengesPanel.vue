@@ -54,58 +54,37 @@
 </template>
 
 <script setup>
-import { ref, computed, inject, watch } from 'vue'
+import { ref, computed, inject, watch, onMounted } from 'vue'
+import { currentGame } from '../store/game'
+import { CHALLENGES } from '../data/challenges'
 
 const emit = defineEmits(['score-change'])
 const showToast = inject('showToast')
 
-const savedCompleted = JSON.parse(localStorage.getItem('ds2_challenges_completed') || '[]')
+function loadCategories(game) {
+  const savedCompleted = JSON.parse(localStorage.getItem(`${game}_challenges_completed`) || '[]')
+  return CHALLENGES[game].map(cat => ({
+    ...cat,
+    challenges: cat.challenges.map(c => ({
+      ...c,
+      completed: savedCompleted.includes(c.id),
+      locked: false,
+    })),
+  }))
+}
 
-const categories = ref([
-  {
-    name: 'Kampfmeister',
-    icon: '⚔️',
-    challenges: [
-      { id: 'c1', name: 'Unberührt',       description: 'Besiege einen Boss ohne einen Treffer zu kassieren', points: 300, difficulty: 'hard',   completed: savedCompleted.includes('c1'), locked: false },
-      { id: 'c2', name: 'Nackter Stahl',   description: 'Besiege The Pursuer ohne Rüstung zu tragen',        points: 250, difficulty: 'hard',   completed: savedCompleted.includes('c2'), locked: false },
-      { id: 'c3', name: 'Trank-Abstinenz', description: 'Besiege einen Boss ohne Estus Flask zu benutzen',   points: 200, difficulty: 'medium', completed: savedCompleted.includes('c3'), locked: false },
-      { id: 'c4', name: 'Blitzsieger',     description: 'Besiege einen Boss in unter 60 Sekunden',           points: 150, difficulty: 'medium', completed: savedCompleted.includes('c4'), locked: false },
-    ],
-  },
-  {
-    name: 'Erkunder',
-    icon: '🗺️',
-    challenges: [
-      { id: 'e1', name: 'Schatzjäger',    description: 'Öffne 10 Truhen in einer einzigen Zone',                    points: 100, difficulty: 'easy',   completed: savedCompleted.includes('e1'), locked: false },
-      { id: 'e2', name: 'Geheimsucher',   description: 'Finde 3 versteckte Wanddurchgänge',                         points: 150, difficulty: 'medium', completed: savedCompleted.includes('e2'), locked: false },
-      { id: 'e3', name: 'Bonfire-Hopper', description: 'Zünde 10 Lagerfeuer in unter 30 Minuten an',                points: 200, difficulty: 'medium', completed: savedCompleted.includes('e3'), locked: false },
-      { id: 'e4', name: 'Kurierläufer',   description: 'Erreiche Majula in unter 5 Minuten nach Spielstart',        points: 100, difficulty: 'easy',   completed: savedCompleted.includes('e4'), locked: false },
-    ],
-  },
-  {
-    name: 'Seelen-Magnat',
-    icon: '💀',
-    challenges: [
-      { id: 's1', name: 'Seelen-Millionär', description: 'Sammle 100.000 Seelen ohne auszugeben',        points: 200, difficulty: 'medium', completed: savedCompleted.includes('s1'), locked: false },
-      { id: 's2', name: 'Kein Verlust',     description: 'Stirb nicht ein einziges Mal in einer Stunde', points: 350, difficulty: 'hard',   completed: savedCompleted.includes('s2'), locked: false },
-      { id: 's3', name: 'Seelenfresser',    description: 'Töte 50 Gegner ohne zu sterben',               points: 150, difficulty: 'easy',   completed: savedCompleted.includes('s3'), locked: false },
-    ],
-  },
-  {
-    name: 'Speedster',
-    icon: '⚡',
-    challenges: [
-      { id: 'sp1', name: 'Doppelschlag',    description: 'Besiege 2 Bosse innerhalb von 15 Minuten',      points: 250, difficulty: 'hard',   completed: savedCompleted.includes('sp1'), locked: false },
-      { id: 'sp2', name: 'No-Buy-Run',      description: 'Kaufe nichts beim Händler in der ersten Stunde', points: 100, difficulty: 'easy',   completed: savedCompleted.includes('sp2'), locked: false },
-      { id: 'sp3', name: 'Dreierlei',       description: 'Besiege 3 Bosse in unter 45 Minuten',           points: 300, difficulty: 'hard',   completed: savedCompleted.includes('sp3'), locked: false },
-      { id: 'sp4', name: 'Stufen-Sprinter', description: 'Erreiche Stufe 20 in unter 30 Minuten',         points: 150, difficulty: 'medium', completed: savedCompleted.includes('sp4'), locked: false },
-    ],
-  },
-])
+const categories = ref(loadCategories(currentGame.value))
+
+// Beim Spielwechsel die passenden Challenges inkl. gespeichertem
+// Fortschritt neu laden und die Punktzahl an ScorePanel melden.
+watch(currentGame, (game) => {
+  categories.value = loadCategories(game)
+  emit('score-change', challengeScore.value)
+})
 
 watch(categories, (val) => {
   const completedIds = val.flatMap(c => c.challenges).filter(c => c.completed).map(c => c.id)
-  localStorage.setItem('ds2_challenges_completed', JSON.stringify(completedIds))
+  localStorage.setItem(`${currentGame.value}_challenges_completed`, JSON.stringify(completedIds))
 }, { deep: true })
 
 function toggleChallenge(challenge) {
@@ -119,7 +98,7 @@ function resetChallenges() {
   categories.value.forEach(cat =>
     cat.challenges.forEach(c => (c.completed = false))
   )
-  localStorage.removeItem('ds2_challenges_completed')
+  localStorage.removeItem(`${currentGame.value}_challenges_completed`)
   emit('score-change', 0)
 }
 
@@ -128,6 +107,9 @@ const completedCount = computed(() => allChallenges.value.filter(c => c.complete
 const totalChallenges = computed(() => allChallenges.value.length)
 const challengeScore = computed(() => allChallenges.value.filter(c => c.completed).reduce((s, c) => s + c.points, 0))
 const maxPossible = computed(() => allChallenges.value.reduce((s, c) => s + c.points, 0))
+
+// Damit die Punktzahl direkt beim Laden korrekt im ScorePanel steht.
+onMounted(() => emit('score-change', challengeScore.value))
 </script>
 
 <style scoped>
