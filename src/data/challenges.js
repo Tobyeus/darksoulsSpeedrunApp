@@ -84,44 +84,35 @@ const ds2Categories = [
 
 const ds3Categories = [
   {
-    name: 'Kampfmeister',
+    name: 'Tobyeus',
     icon: '⚔️',
     challenges: [
-      { id: 'd3c1', name: 'Unberührt', description: 'Besiege einen Boss ohne einen Treffer zu kassieren', points: 300, difficulty: 'hard' },
-      { id: 'd3c2', name: 'Nackter Stahl', description: 'Besiege Vordt of the Boreal Valley ohne Rüstung zu tragen', points: 250, difficulty: 'hard' },
-      { id: 'd3c3', name: 'Aschen-Verzicht', description: 'Besiege einen Boss ohne (Ashen) Estus Flask zu benutzen', points: 200, difficulty: 'medium' },
-      { id: 'd3c4', name: 'Blitzsieger', description: 'Besiege einen Boss in unter 60 Sekunden', points: 150, difficulty: 'medium' },
+      { id: 'd3c1', name: 'Shine like a crystal', description: 'Kill the Crystal lizard before Iudex Gundyr', points: 100, difficulty: 'medium' },
+      { id: 'd3c2', name: 'Spin me Round', description: 'Kill Dancer before Vordt', points: 300, difficulty: 'hard' },
+      { id: 'd3c3', name: 'One Hit Pony', description: 'Use a starting weapon the whole run', points: 100, difficulty: 'medium' },
+      { id: 'd3c4', name: 'You are a wizard Harry', description: 'Use only Sorceries', points: 300, difficulty: 'medium' },
+      { id: 'd3c5', name: 'Chivalry is not dead', description: 'Free Irena', points: 150, difficulty: 'medium' },
     ],
   },
   {
-    name: 'Erkunder',
+    name: 'Max',
     icon: '🗺️',
     challenges: [
-      { id: 'd3e1', name: 'Schatzjäger', description: 'Öffne 10 Truhen in einer einzigen Zone', points: 100, difficulty: 'easy' },
-      { id: 'd3e2', name: 'Geheimsucher', description: 'Finde 3 versteckte Wanddurchgänge', points: 150, difficulty: 'medium' },
-      { id: 'd3e3', name: 'Gnadenschrein-Hopper', description: 'Entzünde 10 Gnadenschreine in unter 30 Minuten', points: 200, difficulty: 'medium' },
-      { id: 'd3e4', name: 'Kurierläufer', description: 'Erreiche Firelink Shrine in unter 5 Minuten nach Spielstart', points: 100, difficulty: 'easy' },
+      { id: 'd3e1', name: 'Im not a hollow!', description: 'dont get levels from yoel', points: 100, difficulty: 'easy' },
+      { id: 'd3e2', name: 'Mohammed Ali', description: 'Kill a boss with fist weapons', points: 150, difficulty: 'medium' },
+      { id: 'd3e3', name: 'Look at me, I am the firekeeper now', description: 'get a second firekeeper', points: 300, difficulty: 'hard' },
+      { id: 'd3e4', name: 'Master of Iai', description: 'kill the master outside firelinkshrine', points: 100, difficulty: 'easy' },
     ],
   },
   {
-    name: 'Seelen-Magnat',
+    name: 'Julia',
     icon: '💀',
     challenges: [
-      { id: 'd3s1', name: 'Seelen-Millionär', description: 'Sammle 50.000 Seelen ohne auszugeben', points: 200, difficulty: 'medium' },
-      { id: 'd3s2', name: 'Kein Verlust', description: 'Stirb nicht ein einziges Mal in einer Stunde', points: 350, difficulty: 'hard' },
-      { id: 'd3s3', name: 'Seelenfresser', description: 'Töte 50 Gegner ohne zu sterben', points: 150, difficulty: 'easy' },
+      { id: 'd3s1', name: 'Easiest boss of my life', description: 'Kill Gundyr first try', points: 150, difficulty: 'medium' },
+      { id: 'd3s2', name: 'Look at my biceps', description: 'Put 5 points into strength', points: 100, difficulty: 'easy' },
+      { id: 'd3s3', name: 'This is parkour', description: 'Do the jump onto of firelink', points: 150, difficulty: 'easy' },
     ],
-  },
-  {
-    name: 'Speedster',
-    icon: '⚡',
-    challenges: [
-      { id: 'd3sp1', name: 'Doppelschlag', description: 'Besiege 2 Bosse innerhalb von 15 Minuten', points: 250, difficulty: 'hard' },
-      { id: 'd3sp2', name: 'No-Buy-Run', description: 'Kaufe nichts beim Händler in der ersten Stunde', points: 100, difficulty: 'easy' },
-      { id: 'd3sp3', name: 'Dreierlei', description: 'Besiege 3 Bosse in unter 45 Minuten', points: 300, difficulty: 'hard' },
-      { id: 'd3sp4', name: 'Stufen-Sprinter', description: 'Erreiche Stufe 20 in unter 30 Minuten', points: 150, difficulty: 'medium' },
-    ],
-  },
+  }
 ]
 
 export const CHALLENGES = {
