@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 const STORAGE_KEY = 'ds_selected_game'
 const saved = localStorage.getItem(STORAGE_KEY)
 
-export const currentGame = ref(['ds1', 'ds2', 'ds3'].includes(saved) ? saved : 'ds2')
+export const currentGame = ref(['ds1', 'ds2', 'ds3', 'eldenring'].includes(saved) ? saved : 'ds2')
 
 watch(currentGame, (val) => {
   localStorage.setItem(STORAGE_KEY, val)
@@ -33,6 +33,14 @@ export const GAME_META = {
     ornament: '⸻ Ashen One, Unkindled ⸻',
     theme: 'theme-ds3',
     accent: '#6a93bf',
+  },
+  eldenring: {
+    id: 'eldenring',
+    title: 'Elden Ring',
+    subtitle: 'Boss Tracker',
+    ornament: '⸻ Tarnished ⸻',
+    theme: 'theme-eldenring',
+    accent: '#e0aa3e',
   },
 }
 

@@ -19,9 +19,14 @@
     </div>
 
     <BossPanel @score-change="bossScore = $event" />
-    <ChallengesPanel @score-change="challengeScore = $event" />
+
+    <ChallengesPanel
+      v-if="currentGame !== 'eldenring'"
+      @score-change="challengeScore = $event"
+    />
 
     <ToastContainer :toasts="toasts" />
+
   </div>
 </template>
 
@@ -43,7 +48,7 @@ const toasts = ref([])
 // aus global.css das komplette Farbschema umschalten - auch außerhalb von
 // #app-wrapper (z. B. der Seitenhintergrund).
 function applyTheme() {
-  document.body.classList.remove('theme-ds1', 'theme-ds2', 'theme-ds3')
+  document.body.classList.remove('theme-ds1', 'theme-ds2', 'theme-ds3', 'theme-eldenring')
   document.body.classList.add(currentMeta.value.theme)
 }
 onMounted(applyTheme)
